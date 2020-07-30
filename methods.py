@@ -14,6 +14,7 @@ def create_image_instance(user_id, image_url, thumb_url):
     image_id = session.query(Image).filter(Image.image_url == image_url).all()
     return image_id[0].id
 
-def get_image_by_name(user_id, user_input):
-    instance = session.query(Image).filter(Image.user_id == user_id, Image.image_name.like(f'%{user_input}%')).all()
+def get_image_by_name(user_id, user_input, offset):
+    instance = session.query(Image).filter(Image.user_id == user_id, Image.image_name.like(f'%{user_input}%')). \
+        limit(1+int(offset)).all()
     return instance
