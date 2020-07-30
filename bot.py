@@ -82,7 +82,7 @@ def set_name(message, image_id):
 def inline_query(query):
 
     try:
-        images = get_image_by_name(query.query)
+        images = get_image_by_name(query.from_user.id, query.query)
     except Exception as IE:
         print(IE)
         return
