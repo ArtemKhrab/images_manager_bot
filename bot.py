@@ -80,15 +80,16 @@ def set_name(message, image_id):
 
 @bot.inline_handler(func=lambda query: len(query.query) > 0)
 def inline_query(query):
-    offset = int(query.offset) if query.offset else 0
+    # offset = int(query.offset) if query.offset else 0
     try:
-        images = get_image_by_name(query.from_user.id, query.query, offset)
+        images = get_image_by_name(query.from_user.id, query.query)
     except Exception as IE:
         print(IE)
         return
-
+    images = set(images)
     if images.__len__() < 1:
         return
+
 
     ans = []
 
@@ -98,7 +99,9 @@ def inline_query(query):
                                                     photo_url=item.image_url, thumb_url=item.thumb_url))
         except Exception as ex:
             print(ex)
-    bot.answer_inline_query(query.id, ans, cache_time=False, next_offset=offset+5)
+    # next_offset = offset+1 if ans.__len__() == 5 else offset
+    # print(next_offset)
+    bot.answer_inline_query(query.id, ans)
 
 
 if __name__ == '__main__':
