@@ -63,7 +63,7 @@ def get_image(message):
     except Exception as ex:
         print(ex)
         return
-
+    bot.send_message(message.from_user.id, 'Ждёмс, фото4ка заливается на сервер...')
     response = requests.post(url, payload)
     r = json.loads(response.text)
     image_id = create_image_instance(message.from_user.id, r['data']['url'], r['data']['thumb']['url'])
