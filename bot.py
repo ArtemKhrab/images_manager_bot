@@ -86,10 +86,9 @@ def inline_query(query):
     except Exception as IE:
         print(IE)
         return
-    images = set(images)
     if images.__len__() < 1:
         return
-
+    images = set(images)
     ans = []
 
     for item in images:
@@ -98,8 +97,6 @@ def inline_query(query):
                                                     photo_url=item.image_url, thumb_url=item.thumb_url))
         except Exception as ex:
             print(ex)
-    if not ans:
-        return
     # next_offset = offset+1 if ans.__len__() == 5 else offset
     # print(next_offset)
     bot.answer_inline_query(query.id, ans, cache_time=False)
