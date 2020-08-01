@@ -86,7 +86,7 @@ def inline_query(query):
     except Exception as IE:
         print(IE)
         return
-    if images.__len__() < 1:
+    if images is None:
         return
     images = set(images)
     ans = []
