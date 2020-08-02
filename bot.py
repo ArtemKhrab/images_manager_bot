@@ -66,7 +66,16 @@ def get_image(message):
     bot.send_message(message.from_user.id, 'Ждёмс, фото4ка заливается на сервер...')
     response = requests.post(url, payload)
     r = json.loads(response.text)
-    image_id = create_image_instance(message.from_user.id, r['data']['url'], r['data']['thumb']['url'])
+    try:
+        image_id = create_image_instance(message.from_user.id, r['data']['url'], r['data']['thumb']['url'])
+    except Exception as ex:
+        print(ex)
+        try:
+            image_id = create_image_instance(message.from_user.id, r['data']['url'], r['data']['thumb']['url'])
+        except Exception as ex:
+            print(ex)
+            bot.send_message(message.from_user.id, 'Не удалось загрузить картиночку в бд(')
+            return
     bot.send_message(message.from_user.id, 'Напиши название, или фразу по которых будешь искать ее')
     bot.register_next_step_handler(message, set_name, image_id)
 
