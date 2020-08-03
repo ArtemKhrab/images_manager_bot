@@ -14,7 +14,7 @@ DB = os.getenv("db_name")
 
 
 engine = create_engine(f'mysql+pymysql://{user}:{password}@{host}/{DB}?host={host}?port={port}',
-                       pool_recycle=1, pool_pre_ping=True).connect()
+                       pool_recycle=1, pool_pre_ping=True, pool_threadlocal=False, expire_on_commit=False).connect()
 Session = sessionmaker(bind=engine)
 session = Session()
 
