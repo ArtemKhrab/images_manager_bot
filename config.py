@@ -13,6 +13,7 @@ port = os.getenv("db_port")
 DB = os.getenv("db_name")
 
 
-engine = create_engine(f'mysql+pymysql://{user}:{password}@{host}/{DB}?host={host}?port={port}', pool_recycle=1800)
+engine = create_engine(f'mysql+pymysql://{user}:{password}@{host}/{DB}?host={host}?port={port}',
+                       pool_timeout=20, pool_recycle=299)
 Session = sessionmaker(bind=engine)
 session = Session()
