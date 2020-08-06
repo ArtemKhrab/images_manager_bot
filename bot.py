@@ -5,6 +5,7 @@ import json
 import requests
 import base64
 from methods import *
+import time
 
 bot = telebot.TeleBot(config.token)
 
@@ -31,6 +32,7 @@ def answer_callback_query(call):
 
     if call.data == 'upload':
         upload(user_id=call.from_user.id, message=call.message)
+        try_to_connect()
         bot.answer_callback_query(call.id, text='', show_alert=False)
         return
 
@@ -55,6 +57,7 @@ def get_image(message):
                                                'Шит хепенс🤷‍♀️')
         return
     file_info = bot.get_file(raw)
+
     try:
         payload = {
             "key": config.api_access_key,
@@ -63,19 +66,23 @@ def get_image(message):
     except Exception as ex:
         print(ex)
         return
+
     bot.send_message(message.from_user.id, 'Ждёмс, фото4ка заливается на сервер...')
+    try:
+        test_connection()
+    except Exception as ex:
+        print(ex)
+        time.sleep(3)
     response = requests.post(url, payload)
     r = json.loads(response.text)
+
     try:
         image_id = create_image_instance(message.from_user.id, r['data']['url'], r['data']['thumb']['url'])
     except Exception as ex:
         print(ex)
-        try:
-            image_id = create_image_instance(message.from_user.id, r['data']['url'], r['data']['thumb']['url'])
-        except Exception as ex:
-            print(ex)
-            bot.send_message(message.from_user.id, 'Не удалось загрузить картиночку в бд(')
-            return
+        bot.send_message(message.from_user.id, 'Не удалось загрузить картиночку в бд(')
+        return
+
     bot.send_message(message.from_user.id, 'Напиши название, или фразу по которых будешь искать ее')
     bot.register_next_step_handler(message, set_name, image_id)
 

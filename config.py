@@ -1,6 +1,6 @@
 from dotenv import *
 import os
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, exc
 from sqlalchemy.orm import sessionmaker
 
 load_dotenv(verbose=True)
@@ -12,9 +12,7 @@ password = os.getenv("db_password")
 port = os.getenv("db_port")
 DB = os.getenv("db_name")
 
-
 engine = create_engine(f'mysql+pymysql://{user}:{password}@{host}/{DB}?host={host}?port={port}',
-                       pool_recycle=1, pool_pre_ping=True, pool_threadlocal=False, expire_on_commit=False).connect()
+                       pool_pre_ping=True, pool_size=100)
 Session = sessionmaker(bind=engine)
 session = Session()
-

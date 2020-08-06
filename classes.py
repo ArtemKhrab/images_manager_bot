@@ -17,4 +17,11 @@ class Image(Base):
     date = Column(DateTime, default=datetime.datetime.utcnow)
 
 
+class Test(Base):
+    __tablename__ = 'test'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    test = Column(Boolean, default=True)
+
+
 Base.metadata.create_all(engine)
