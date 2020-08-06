@@ -72,6 +72,7 @@ def get_image(message):
         test_connection()
     except Exception as ex:
         print(ex)
+        session.rollback()
         time.sleep(3)
     response = requests.post(url, payload)
     r = json.loads(response.text)
