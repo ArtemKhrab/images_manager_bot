@@ -99,6 +99,12 @@ def set_name(message, image_id):
 def inline_query(query):
     # offset = int(query.offset) if query.offset else 0
     try:
+        test_connection()
+    except Exception as ex:
+        print(ex)
+        session.rollback()
+        time.sleep(3)
+    try:
         images = get_image_by_name(query.from_user.id, query.query)
     except Exception as IE:
         print(IE)
