@@ -39,18 +39,26 @@ def tags_getter(message):
         instances = get_tags(message.from_user.id)
     except Exception as ex:
         print(ex)
+        bot.send_message(message.from_user.id, 'Шо-то пошло не так... \n'
+                                               'Шит хепенс🤷‍♀️')
+        return
 
     if instances.__len__() < 1:
         bot.send_message(message.from_user.id, 'Соре, у вас нету ни одной картинки')
         return
 
-    tag_list = 'Ваши теги картинок: \n\n'
+    tag_list_unique = set()
+
+    tag_list_text = 'Ваши теги картинок: \n\n'
 
     for image in instances:
-        tag_list += f'{image.image_name} \n'
+        tag_list_unique.add(image.image_name.strip())
 
-    bot.send_message(message.from_user.id, tag_list)
-    return 
+    for tag in tag_list_unique:
+        tag_list_text += f'{tag} \n'
+
+    bot.send_message(message.from_user.id, tag_list_text)
+    return
 
 
 @bot.callback_query_handler(func=lambda call: True)
