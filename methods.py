@@ -22,5 +22,9 @@ def test_connection():
     session.query(Test).update({Test.test: True}, synchronize_session=False)
     session.commit()
 
-def try_to_connect():
-    session.query(Image)
+
+def get_tags(user_id):
+    return session.query(Image).filter(Image.user_id == user_id).all()
+
+
+

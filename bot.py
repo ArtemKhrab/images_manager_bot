@@ -27,14 +27,40 @@ def upload_request(message):
     return
 
 
+@bot.message_handler(commands=['get_tags'])
+def tags_getter(message):
+    try:
+        test_connection()
+    except Exception as ex:
+        print(ex)
+        session.rollback()
+        time.sleep(3)
+    try:
+        instances = get_tags(message.from_user.id)
+    except Exception as ex:
+        print(ex)
+
+    if instances.__len__() < 1:
+        bot.send_message(message.from_user.id, 'Соре, у вас нету ни одной картинки')
+        return
+
+    tag_list = 'Ваши теги картинок: \n\n'
+
+    for image in instances:
+        tag_list += f'{image.image_name} \n'
+
+    bot.send_message(message.from_user.id, tag_list)
+    return 
+
+
 @bot.callback_query_handler(func=lambda call: True)
 def answer_callback_query(call):
 
     if call.data == 'upload':
         upload(user_id=call.from_user.id, message=call.message)
-        try_to_connect()
         bot.answer_callback_query(call.id, text='', show_alert=False)
         return
+
 
 def upload(user_id, message):
     bot.send_message(user_id, 'Отправь мне фото4ку')
