@@ -52,7 +52,11 @@ def tags_getter(message):
     tag_list_text = 'Ваши теги картинок: \n\n'
 
     for image in instances:
-        tag_list_unique.add(image.image_name.strip())
+        
+        try:
+            tag_list_unique.add(image.image_name.strip())
+        except Exception as ex:
+            print(ex)
 
     for tag in tag_list_unique:
         tag_list_text += f'{tag} \n'
