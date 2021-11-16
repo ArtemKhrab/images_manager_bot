@@ -8,7 +8,7 @@ from methods import *
 import time
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)g
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 bot = telebot.TeleBot(config.token)
 
