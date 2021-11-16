@@ -7,6 +7,9 @@ import base64
 from methods import *
 import time
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
