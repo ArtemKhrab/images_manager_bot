@@ -26,7 +26,7 @@ template:
     
     db_name = database name
  
-Enjoy.
+Enjoy!
     
 
 
